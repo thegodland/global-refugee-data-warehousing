@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+  <title>MongoDB Data Warehouse</title>
+  <meta name="description" content="" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+   
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <link href="css/carousel.css" rel="stylesheet">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  
+  <script type="text/javascript">
+      
+        var test = <%- JSON.stringify(results["groupByYear"]) %>;
+        console.log(test);
+        listResultOne = function(a){
+            var final =[['Year','Refugee']];
+            for( var i=0;i<a.length;i++){
+            var output=[];
+            output.push(a[i]["_id"]);
+            output.push(a[i]["numberOfRefugee"]);
+            final.push(output);
+        };
+        return final;
+        }
+        var items=listResultOne(test);
+        console.log(items);
+
+      google.charts.load('current', {'packages':['bar']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+          var data = google.visualization.arrayToDataTable(items);
+
+          var options = {
+              chart: {
+                  title: 'Refugee Distribution',
+                  subtitle: '2006-2015',
+              }
+          };
+
+          var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+          chart.draw(data, google.charts.Bar.convertOptions(options));
+      }
+  </script>
+
+  
+   <script type="text/javascript">
+       
+      var test1 = <%- JSON.stringify(results["groupByIncome"]) %>;
+        
+        listResultOne = function(a){
+            var final =[['Income Group','Refugee']];
+            for( var i=0;i<a.length;i++){
+            var output=[];
+            output.push(a[i]["_id"]);
+            output.push(a[i]["numberOfRefugee"]);
+            final.push(output);
+        };
+        return final;
+        }
+        var items1=listResultOne(test1);
+        console.log(items1);
+
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+
+          var data = google.visualization.arrayToDataTable(items1);
+
+          var options = {
+              title: 'Refugee Distribution By Income Group'
+          };
+
+          var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+          chart.draw(data, options);
+      }
+  </script>
+  
+  <script type="text/javascript">
+  
+    var test2 = <%- JSON.stringify(results["groupByRegion"]) %>;
+    console.log(test2);
+        
+        listResultOne = function(a){
+            var final =[['Location','Parent','Market trade volume (size)'],
+            ['Global',null,0],['East Asia & Pacific','Global',0],
+            ['Europe & Central Asia','Global',0],
+            ['Latin America & Caribbean','Global',0],
+            ['Middle East & North Africa','Global',0],
+            ['North America','Global',0],
+            ['South Asia','Global',0],
+            ['Sub-Saharan Africa','Global',0]];
+            for( var i=0;i<a.length;i++){
+            var output=[];
+            
+            output.push(a[i]["_id"]["country"]);
+            output.push(a[i]["_id"]["region"]);
+            output.push(a[i]["numberOfRefugee"]);
+            final.push(output);
+        };
+        return final;
+        }
+        var items2=listResultOne(test2);
+        console.log(items2);
+        
+
+        google.charts.load('current', {'packages':['treemap']});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(items2);
+
+            tree = new google.visualization.TreeMap(document.getElementById('chart_div'));
+            var options = {
+                highlightOnMouseOver: true,
+                maxDepth: 1,
+                maxPostDepth: 2,
+                minHighlightColor: '#8c6bb1',
+                midHighlightColor: '#9ebcda',
+                maxHighlightColor: '#edf8fb',
+                minColor: '#009688',
+                midColor: '#f7f7f7',
+                maxColor: '#ee8100',
+                headerHeight: 15,
+                showScale: true,
+                height: 500,
+                useWeightedAverageForAggregation: true
+            };
+            tree.draw(data, options);
+
+        }
+    </script>
+
+  </head>
+<body>
+
+<header>
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <a class="navbar-brand" href="http://testapp.6irsrbe3p2.us-east-2.elasticbeanstalk.com">Refugee Data Warehouse</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">Overview<span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="detail">Search</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item nav-right"><a class="nav-link" href="http://testapp.6irsrbe3p2.us-east-2.elasticbeanstalk.com">Log out</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<br>
+<br>
+<br>
+<main role="main">
+  
+
+  <div class="row">
+    <div class="col-sm-2">
+
+    </div>
+    <div class="col-sm-6">
+        <h4 class="mb-3">Refugee Distribution By Year</h4>
+      <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+    </div>
+    <div class="col-sm-4">
+
+    </div>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-2">
+
+    </div>
+    <div class="col-sm-6">
+        <h4 class="mb-3">Refugee Distribution By Income Group</h4>
+      <div id="piechart" style="width: 900px; height: 500px;"></div>
+    </div>
+    <div class="col-sm-4">
+
+    </div>
+  </div>
+  
+  <div class="row">
+        <div class="col-sm-2">
+
+        </div>
+        <div class="col-sm-6">
+            <h4 class="mb-3">Refugee Distribution By Global - TreeMap</h4>
+            <span class="badge badge-pill badge-info">Left-click a node to move down the tree</span><br><br>
+            <span class="badge badge-pill badge-info">Right-click the graph to move back up the tree </span>
+            <div id="chart_div" style="width: 900px; height: 500px;"></div>
+        </div>
+        <div class="col-sm-4">
+
+        </div>
+    </div>
+  
+  </main>
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

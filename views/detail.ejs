@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>MongoDB Data Warehouse</title>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="css/carousel.css" rel="stylesheet">
+    <link href="css/form-validation.css" rel="stylesheet">
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="http://testapp.6irsrbe3p2.us-east-2.elasticbeanstalk.com">Refugee Data Warehouse</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Overview<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Search</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item nav-right"><a class="nav-link"
+                                                  href="http://testapp.6irsrbe3p2.us-east-2.elasticbeanstalk.com">Log
+                    out</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<br>
+<br>
+<br>
+<main role="main">
+    <div class="row">
+        <div class="col-sm-2">
+
+        </div>
+
+
+        <div class="col-sm-8">
+            <form method="POST" action="/getpara">
+                <h4 class="mb-3">Query Selection</h4>
+                <div class="mb-3">
+                    <label path="year">Year</label>
+                    <select id="yearSelected" name="yearSelected" class="custom-select d-block w-100" path="year"
+                                 onchange="changedYear(this.id)">
+                        <option selected value="2006">2006</option>
+                        <option value="2007">2007</option>
+                        <option value="2008">2008</option>
+                        <option value="2009">2009</option>
+                        <option value="2010">2010</option>
+                        <option value="2011">2011</option>
+                        <option value="2012">2012</option>
+                        <option value="2013">2013</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label path="measure">Measure</label>
+                    <select id="measureSelected" name="measureSelected" class="custom-select d-block w-100" path="measure"
+                                 onchange="changedMeasure(this.id)">
+                        <option selected value="gdp">GDP</option>
+                        <option value="terror_case">Terrorism</option>
+                        <option value="population">Population</option>
+                        <option value="migrant">Migrant</option>
+                        <option value="life_expectancy">Life Expectancy</option>
+            
+                        <option value="unemploy_rate">Unemployment rate</option>
+                        <option value="ntd">Intervention against neglected tropical diseases</option>
+                        <option value="hb_coverage">Hepatitis B immunization coverage</option>
+                 
+
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label path="top">List Top Result</label>
+                    <select id="topSelected" name="topSelected" class="custom-select d-block w-100" path="top"
+                                 onchange="changedTop(this.id)">
+                        <option selected value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                </div>
+                <hr class="mb-4">
+                <p class="hint">Give me the top <span id="topLabel">1 country</span> and the number of refugees which have the <span
+                        id="measureLabel">highest GDP</span> in <span id="yearLabel">2010</span>.</p>
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Check Refugee Number and Country!
+                </button>
+            </form>
+        </div>
+
+        <div class="col-sm-2">
+
+        </div>
+
+    </div>
+</main>
+<br>
+<br>
+<br>
+<br>
+<br>
+<script src="js/anime.min.js"></script>
+<script type="text/javascript">
+    window.onload = function(){
+        changedYear("yearSelected");
+        changedMeasure("measureSelected");
+        changedTop("topSelected");
+    }
+
+    function changedYear(x) {
+        animation();
+        var selectedYear = document.getElementById(x).value;
+        document.getElementById("yearLabel").innerText = selectedYear;
+    }
+
+    function changedMeasure(x) {
+        animation();
+        var selectedMeasure = document.getElementById(x).value;
+        if (selectedMeasure == "gdp") {
+            document.getElementById("measureLabel").innerText = "highest GDP";
+        } else if (selectedMeasure == "terrorism") {
+            document.getElementById("measureLabel").innerText = "most Terrorism cases";
+        } else if (selectedMeasure == "population") {
+            document.getElementById("measureLabel").innerText = "largest Population";
+        } else if (selectedMeasure == "migrant") {
+            document.getElementById("measureLabel").innerText = "most Migrant";
+        } else if (selectedMeasure == "life") {
+            document.getElementById("measureLabel").innerText = "highest Life Expectancy";
+        }else if (selectedMeasure == "unemployment") {
+            document.getElementById("measureLabel").innerText = "highest Unemployment Rate";
+        }else if (selectedMeasure == "ntd") {
+            document.getElementById("measureLabel").innerText = "largest number of people requiring Intervention against NTDs";
+        }else if (selectedMeasure == "hb") {
+            document.getElementById("measureLabel").innerText = "largest Hepatitis B immunization coverage";
+        }
+    }
+
+    function changedTop(x) {
+        animation();
+        var selectedTop = document.getElementById(x).value;
+        if (selectedTop > 1) {
+            document.getElementById("topLabel").innerText =
+                selectedTop + " countries";
+        } else {
+            document.getElementById("topLabel").innerText =
+                selectedTop + " country";
+        }
+    }
+
+    function animation() {
+        var myAnimation = anime({
+            targets: ['.hint'],
+            easing: 'easeInOutExpo',
+            opacity: [0, 1],
+            duration: 400,
+            translateY: ['-100%','0%'],
+        });
+    }
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</body>
+</html>
+

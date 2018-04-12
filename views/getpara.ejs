@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <title>MongoDB Data Warehouse</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="css/carousel.css" rel="stylesheet">
+    <link href="css/form-validation.css" rel="stylesheet">
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    
+        var test2 = <%- JSON.stringify(results) %>;
+        var method = <%- JSON.stringify(method) %>;
+ 
+        listResultOne = function(a){
+            var final =[];
+            for( var i=0;i<a.length;i++){
+            var output=[];
+            output.push(a[i]["location"]["fullName"]);
+            output.push(a[i]["num_of_refugee"]);
+            output.push(a[i][method]);
+            final.push(output);
+        };
+        return final;
+        }
+        var items2=listResultOne(test2);
+
+        google.charts.load('current', {'packages':['table']});
+        google.charts.setOnLoadCallback(drawTable);
+
+        function drawTable() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Country');
+            data.addColumn('number', 'Refugee');
+            data.addColumn('number', method);
+            data.addRows(items2);
+
+            var table = new google.visualization.Table(document.getElementById('table_div'));
+
+            table.draw(data, {showRowNumber: true, width: '100%', height: '100%'});
+        }
+    </script>
+
+
+    <script type="text/javascript">
+    
+        var test = <%- JSON.stringify(results) %>;
+
+        listResultOne = function(a){
+            var final =[['Country','Refugee']];
+            for( var i=0;i<a.length;i++){
+            var output=[];
+            output.push(a[i]["location"]["fullName"]);
+            output.push(a[i]["num_of_refugee"]);
+            final.push(output);
+        };
+        return final;
+        }
+        var items=listResultOne(test);
+
+
+    
+        google.charts.load("current", {packages:["corechart"]});
+        google.charts.setOnLoadCallback(drawChart);
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable(items);
+
+            var options = {
+                title: 'Refugee Distribution',
+                pieHole: 0.4,
+            };
+
+            var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
+            chart.draw(data, options);
+        }
+    </script>
+
+
+    <script type="text/javascript">
+    
+         var test1 = <%- JSON.stringify(results) %>;
+        console.log(test1);
+        listResultOne = function(a){
+            var final =[['Country','Refugee']];
+            for( var i=0;i<a.length;i++){
+            var output=[];
+            output.push(a[i]["location"]["fullName"]);
+            output.push(a[i]["num_of_refugee"]);
+            final.push(output);
+        };
+        return final;
+        }
+        var items1=listResultOne(test1);
+    
+    
+    
+        google.charts.load('current', {
+            'packages':['geochart'],
+            // Note: you will need to get a mapsApiKey for your project.
+            // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
+            'mapsApiKey': 'AIzaSyD-9tSrke72PouQMnMX-a7eZSW0jkFMBWY'
+        });
+        google.charts.setOnLoadCallback(drawRegionsMap);
+
+        function drawRegionsMap() {
+            var data = google.visualization.arrayToDataTable(items1);
+
+            var options = {};
+
+            var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+
+            chart.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+
+<header>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="http://testapp.6irsrbe3p2.us-east-2.elasticbeanstalk.com">Refugee Data Warehouse</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Overview<span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/detail">Search</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item nav-right"><a class="nav-link" href="http://testapp.6irsrbe3p2.us-east-2.elasticbeanstalk.com">Log out</a></li>
+            </ul>
+        </div>
+    </nav>
+</header>
+<br>
+<br>
+<br>
+<main role="main">
+    <div class="row">
+        <div class="col-sm-1">
+
+        </div>
+
+        <div class="col-sm-5">
+            <h4 class="mb-3">Result Area</h4>
+            <br>
+            <br>
+            <div id="table_div"></div>
+
+        </div>
+        <div class="col-sm-5">
+            <div id="donutchart" style="width: 500px; height: 500px;"></div>
+
+        </div>
+        <div class="col-sm-1">
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-2">
+
+        </div>
+
+        <div class="col-sm-8">
+
+
+
+        </div>
+        <div class="col-sm-2">
+
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-sm-2">
+
+        </div>
+        <div class="col-sm-8">
+            <h4 class="mb-3">Country Visualization</h4>
+            <div id="regions_div" style="width: 900px; height: 500px;"></div>
+        </div>
+        <div class="col-sm-2">
+
+        </div>
+    </div>
+</main>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
+
