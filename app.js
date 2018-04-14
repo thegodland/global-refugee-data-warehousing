@@ -6,8 +6,10 @@ var express = require("express"),
     Schema = mongoose.Schema;
     
 //connect to db test
+mongoose.connect("mongodb://thegodland:thegodland@ds245809-a0.mlab.com:45809,ds245809-a1.mlab.com:45809/adbproject?replicaSet=rs-ds245809");
 // mongoose.connect("mongodb://localhost/projectADB");
-mongoose.connect("mongodb://thegodland:thegodland@ds243059.mlab.com:43059/adbproject");
+// mongoose.connect("mongodb://thegodland:thegodland@ds243059.mlab.com:43059/adbproject");
+
 
 //define schema of collection facts
 var factSchema = Schema({
@@ -229,7 +231,7 @@ app.get("/detail",function(req,res){
 
 ////important///////
 app.post("/getpara",function(req,res){
-    var year = req.body.yearSelected;
+    var year = Number(req.body.yearSelected);
     var measure = req.body.measureSelected;
     var top = Number(req.body.topSelected);
     groupByMeasure_refugee(year,top,measure,function(err,result){
