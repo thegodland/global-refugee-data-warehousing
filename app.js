@@ -4,11 +4,11 @@ var express = require("express"),
     mongoose = require("mongoose"),
     async = require("async"),
     Schema = mongoose.Schema;
+const dblink = require("./db").dblink;
     
 //connect to db test
-// mongoose.connect("mongodb://thegodland:thegodland@ds245809-a0.mlab.com:45809,ds245809-a1.mlab.com:45809/adbproject?replicaSet=rs-ds245809");
 // mongoose.connect("mongodb://localhost/projectADB");
-mongoose.connect("mongodb://thegodland:thegodland@ds243059.mlab.com:43059/adbproject");
+mongoose.connect(dblink);
 
 
 //define schema of collection facts
